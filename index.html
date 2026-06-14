@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -520,3 +521,527 @@ document.addEventListener('keydown',e=>{
 </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Гараж мечты</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000000;
+    --cell-bg:#F1F2F2;
+    --cell-border:#58595B;
+    --text:#FFFFFF;
+    --accent:#242240;
+    --garage-bg:#1a1a1a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ===================== ГЛАВНАЯ ===================== */
+  .home{position:relative;}
+  .parallax-bg{
+    position:fixed;inset:0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(36,34,64,.35), transparent 45%),
+      radial-gradient(circle at 80% 75%, rgba(20,40,90,.25), transparent 50%),
+      var(--bg);
+    z-index:0;
+  }
+  .parallax-bg::after{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size:60px 60px;opacity:.5;
+  }
+
+  /* Первый экран — заголовок строго по центру, в 2 строки */
+  .hero{
+    position:relative;z-index:2;
+    height:100vh;
+    display:flex;
+    align-items:center;        /* центр по вертикали */
+    justify-content:center;    /* центр по горизонтали */
+    padding:20px;
+    overflow:hidden;
+  }
+  .hero h1{
+    font-family:'Orbitron',sans-serif;
+    font-weight:900;
+    color:#FFFFFF;
+    font-size:clamp(3rem,13vw,11rem);
+    line-height:1.02;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    text-align:center;
+    text-shadow:0 0 60px rgba(255,255,255,.2);
+    /* мягкое проявление со сдвигом сверху */
+    opacity:0;transform:translateY(-50px);
+    animation:fadeSlideIn 1.1s cubic-bezier(.2,.8,.2,1) .2s forwards;
+  }
+  .hero h1 .line{display:block;}
+  @keyframes fadeSlideIn{
+    from{opacity:0;transform:translateY(-50px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* Заголовок секции гаража */
+  .grid-head{
+    position:relative;z-index:2;text-align:center;
+    padding:30px 20px 10px;
+  }
+  .grid-head h2{
+    font-family:'Orbitron',sans-serif;
+    font-size:clamp(1.2rem,3vw,1.8rem);
+    letter-spacing:2px;color:#cdd7f0;
+  }
+
+  /* Сетка ячеек */
+  .grid{
+    position:relative;z-index:2;
+    max-width:1500px;margin:0 auto;
+    padding:24px 24px 120px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:28px;
+  }
+  .cell{
+    background:var(--cell-bg);
+    border:3px solid var(--cell-border);
+    border-radius:12px;
+    min-height:220px;
+    cursor:pointer;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-end;
+    padding:22px;color:var(--accent);text-align:center;
+    position:relative;overflow:hidden;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .35s ease;
+    opacity:0;transform:translateY(40px);
+  }
+  .cell.in-view{
+    opacity:1;transform:translateY(0);
+    transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease,box-shadow .35s ease,border-color .35s ease;
+  }
+  .cell .door{
+    position:absolute;top:0;left:0;right:0;height:60%;
+    background:repeating-linear-gradient(180deg,#e2e3e4 0 16px,#d4d5d6 16px 18px);
+    border-bottom:2px solid #b9babb;
+    transition:transform .45s cubic-bezier(.4,0,.2,1);transform-origin:top;
+  }
+  .cell:hover .door{transform:scaleY(.12);}
+  .cell .num{
+    position:absolute;top:12px;left:14px;
+    font-family:'Orbitron',sans-serif;font-weight:700;font-size:1rem;
+    color:var(--accent);z-index:2;background:#fff;
+    border:2px solid var(--cell-border);border-radius:6px;padding:2px 10px;
+  }
+  .cell .brand-tag{
+    position:absolute;top:14px;right:14px;
+    font-size:.68rem;letter-spacing:1px;text-transform:uppercase;
+    color:#8a8b8d;font-weight:600;z-index:2;
+  }
+  .cell .name{
+    position:relative;z-index:2;font-weight:700;font-size:1.15rem;line-height:1.25;margin-bottom:6px;
+  }
+  .cell .detail{
+    position:relative;z-index:2;font-size:.8rem;color:#6c6d6f;font-weight:500;
+  }
+  .cell:hover{
+    transform:translateY(-10px) scale(1.03);
+    border-color:var(--accent);
+    box-shadow:0 22px 50px rgba(0,0,0,.6),0 0 0 4px rgba(36,34,64,.4);
+  }
+  .cell.porsche{background:linear-gradient(160deg,#f6f7f8,#e9eef6);}
+  .cell.porsche .name{color:#1a2a4a;}
+
+  /* ===================== ЛИЧНЫЙ ГАРАЖ ===================== */
+  .garage{display:none;position:relative;z-index:50;background:var(--garage-bg);min-height:100vh;}
+  .garage.active{display:block;animation:fadeIn .5s ease;}
+  @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+
+  .garage-top{
+    display:flex;align-items:center;gap:18px;padding:24px 30px;
+    border-bottom:1px solid #2a2a2a;position:sticky;top:0;
+    background:rgba(26,26,26,.92);backdrop-filter:blur(8px);z-index:10;
+  }
+  .back-btn,.garage-nav-btn{
+    background:transparent;border:2px solid #444;color:#fff;
+    padding:9px 18px;border-radius:30px;cursor:pointer;font-weight:600;
+    transition:border-color .25s,background .25s,transform .2s;
+  }
+  .back-btn:hover,.garage-nav-btn:hover{border-color:#fff;background:rgba(255,255,255,.06);}
+  .garage-nav-btn{padding:9px 16px;font-size:1.05rem;}
+  .garage-nav-btn:hover{transform:scale(1.08);}
+  .garage-top h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.1rem,3vw,1.7rem);flex:1;text-align:center;}
+  .garage-nav{display:flex;gap:10px;}
+
+  /* Контейнер контента машины — для анимации перелистывания */
+  .garage-inner{max-width:1100px;margin:0 auto;padding:40px 24px 80px;}
+  .car-content{position:relative;}
+  .car-content.slide-out-left{animation:slideOutLeft .35s cubic-bezier(.4,0,.6,1) forwards;}
+  .car-content.slide-in-right{animation:slideInRight .45s cubic-bezier(.2,.8,.2,1) forwards;}
+  .car-content.slide-out-right{animation:slideOutRight .35s cubic-bezier(.4,0,.6,1) forwards;}
+  .car-content.slide-in-left{animation:slideInLeft .45s cubic-bezier(.2,.8,.2,1) forwards;}
+  @keyframes slideOutLeft{to{opacity:0;transform:translateX(-60px);}}
+  @keyframes slideInRight{from{opacity:0;transform:translateX(60px);}to{opacity:1;transform:translateX(0);}}
+  @keyframes slideOutRight{to{opacity:0;transform:translateX(60px);}}
+  @keyframes slideInLeft{from{opacity:0;transform:translateX(-60px);}to{opacity:1;transform:translateX(0);}}
+
+  /* 3D-галерея */
+  .gallery{perspective:1400px;margin-bottom:50px;}
+  .stage-wrap{position:relative;}
+  .stage{
+    position:relative;width:100%;aspect-ratio:16/10;max-height:560px;margin:0 auto;
+    transform-style:preserve-3d;
+  }
+  .stage img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:14px;
+    opacity:0;transform:rotateY(35deg) scale(.92);
+    transition:opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 30px 60px rgba(0,0,0,.6);backface-visibility:hidden;
+  }
+  .stage img.show{opacity:1;transform:rotateY(0) scale(1);}
+  .stage-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(0,0,0,.55);border:1px solid #555;color:#fff;
+    width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:1.4rem;z-index:5;
+    transition:background .25s,transform .25s;
+  }
+  .stage-arrow:hover{background:rgba(0,0,0,.85);transform:translateY(-50%) scale(1.1);}
+  .stage-arrow.left{left:14px;}
+  .stage-arrow.right{right:14px;}
+  .gallery-controls{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:22px;}
+  .dots{display:flex;gap:9px;}
+  .dots span{width:11px;height:11px;border-radius:50%;background:#444;cursor:pointer;transition:background .25s,transform .25s;}
+  .dots span.active{background:#fff;transform:scale(1.2);}
+  .view-label{text-align:center;color:#888;margin-top:12px;font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:2px;}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .info-card{
+    background:#222;border:1px solid #2e2e2e;border-radius:14px;padding:26px 22px;
+    transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
+  }
+  .info-card:hover{transform:scale(1.04) translateY(-4px);box-shadow:0 20px 45px rgba(0,0,0,.55);border-color:#4a4870;}
+  .info-card h3{font-family:'Orbitron',sans-serif;font-size:1rem;letter-spacing:1px;margin-bottom:16px;color:#9fb8ff;display:flex;align-items:center;gap:8px;}
+  .info-card p{color:#cfcfcf;line-height:1.65;font-size:.93rem;}
+  .spec-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2e2e2e;font-size:.9rem;}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-row span:first-child{color:#888;}
+  .spec-row span:last-child{font-weight:600;}
+  .buy-btn{display:inline-block;margin-top:14px;background:var(--accent);color:#fff;padding:11px 22px;border-radius:30px;text-decoration:none;font-weight:600;font-size:.88rem;transition:background .25s,transform .25s;}
+  .buy-btn:hover{background:#322f55;transform:scale(1.05);}
+  .highlight{background:rgba(159,184,255,.12);border-left:3px solid #9fb8ff;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;font-size:.85rem;color:#dfe6ff;}
+
+  /* ===================== АДАПТИВ ===================== */
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr);}}
+  @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr);}.cards{grid-template-columns:1fr;}}
+  @media(max-width:560px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:16px;padding:16px 16px 90px;}
+    .cell{min-height:180px;padding:16px;}
+    .cell .name{font-size:1rem;}
+    .garage-inner{padding:24px 16px 60px;}
+    .garage-top h2{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== ГЛАВНАЯ ===================== -->
+<div class="home" id="home">
+  <div class="parallax-bg" id="parallax"></div>
+
+  <!-- Первый экран: заголовок по центру, в 2 строки -->
+  <header class="hero">
+    <h1><span class="line">Мой гараж</span><span class="line">мечты</span></h1>
+  </header>
+
+  <div class="grid-head"><h2>Гаражные ячейки</h2></div>
+  <main class="grid" id="grid"></main>
+</div>
+
+<!-- ===================== ЛИЧНЫЙ ГАРАЖ ===================== -->
+<section class="garage" id="garage">
+  <div class="garage-top">
+    <button class="back-btn" onclick="goHome()">← В гараж</button>
+    <h2 id="gTitle"></h2>
+    <div class="garage-nav">
+      <button class="garage-nav-btn" onclick="prevCar()" title="Предыдущая машина">‹</button>
+      <button class="garage-nav-btn" onclick="nextCar()" title="Следующая машина">›</button>
+    </div>
+  </div>
+  <div class="garage-inner">
+    <div class="car-content" id="carContent">
+      <div class="gallery">
+        <div class="stage-wrap">
+          <button class="stage-arrow left" onclick="prevImg()">‹</button>
+          <div class="stage" id="stage"></div>
+          <button class="stage-arrow right" onclick="nextImg()">›</button>
+        </div>
+        <div class="gallery-controls"><div class="dots" id="dots"></div></div>
+        <div class="view-label" id="viewLabel">РАКУРС 1 / 3</div>
+      </div>
+      <div class="cards" id="cards"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ===================== ДАННЫЕ (20 авто) =====================
+   Свои фото: imgs:["img/x-front.jpg","img/x-side.jpg","img/x-rear.jpg"]
+   Пустой imgs:[] → заглушка placehold.co
+*/
+const cars = [
+  {id:1, brand:"Porsche", porsche:true, name:"Porsche 912E", detail:"Тёмно-зелёный · багажник на крыше", imgs:["img/057bf5458f29d368ea5ecf0e9dfea2ab.jpg","img/1967-porsche-912-coupe.jfif","img/2ce2f7ed8394864a0a49d318298eab27.jpg"],
+   desc:"Для американского рынка в 1976 модельном году была доступна модель 912E Coupé. Её 2,0-литровый 4-цилиндровый оппозитный двигатель развивал 90 л.с. Внешне напоминала 911 серии G, но с выпуклыми колпаками на колёсах, как у оригинального 911. Цвет — тёмно-зелёный с уходом в тёмно-синий.",
+   pop:"Доступный вход в мир классических Porsche, редкая 4-цилиндровая модель только для США.",
+   year:"1976", power:"90 л.с.", dream:"$90 000", price:"$45 000–90 000", shop:"Porsche Classic",
+   note:"🎒 Багажник на крыше · выпуклые колпаки как у оригинального 911"},
+  {id:2, brand:"Porsche", porsche:true, name:"Porsche GT One", detail:"Современный гиперкар", imgs:["img/Tuthill GT One reveal-7.png","img/Tuthill GT One reveal-2.png","img/Tuthill GT One reveal-9.png"],
+   desc:"Современный гоночный гиперкар Porsche с агрессивной аэродинамикой и посадкой по центру.",
+   pop:"Машина-омаж легендарным прототипам Ле-Мана.",
+   year:"2025", power:"≈ 700 л.с.", dream:"$2 000 000", price:"под запрос", shop:"Porsche Motorsport"},
+  {id:3, brand:"Porsche", porsche:true, name:"Porsche 964 RUF Yellow Bird", detail:"Легендарная «жёлтая птица»", imgs:["img/6abdeee2215939fd434676760af09119bdd1275e.jpg","img/363997a8c1b9b4944249a1665c43988d57ee4a7a.png","img/cef1d775643249aacf0d4bd89e2d869f93c52a98-e1722961925653.png"],
+   desc:"Тот самый CTR «Yellow Bird» от ателье RUF — ярко-жёлтый, узкий кузов, огромная мощность.",
+   pop:"Икона 80-х, рекордсмен скорости своего времени.",
+   year:"1987", power:"469 л.с.", dream:"$6 000 000", price:"аукцион", shop:"RUF Automobile"},
+  {id:4, brand:"Porsche", porsche:true, name:"Porsche 911 Sport Classic", detail:"Светло-серый · 2025", imgs:["img/_F1A0834_le_02a_ufdlus.png","img/_F1A0959_le_02a_aao7i2.png","img/_F1A1021_le_02a_pbdcku.png"],
+   desc:"Лимитированный 911 Sport Classic в светло-сером, с двойным горбом на крыше и фастбэком.",
+   pop:"Олдскульный дизайн на современной платформе.",
+   year:"2025", power:"550 л.с.", dream:"$280 000", price:"$280 000", shop:"Porsche Exclusive"},
+  {id:5, brand:"Porsche", porsche:true, name:"Tuthill 911K", detail:"Рестомод от Tuthill", imgs:[],
+   desc:"Экстремальный облегчённый рестомод от британского ателье Tuthill на базе классического 911.",
+   pop:"Один из самых радикальных и лёгких 911 в мире.",
+   year:"2024", power:"≈ 400 л.с.", dream:"$1 200 000", price:"под заказ", shop:"Tuthill Porsche"},
+  {id:6, brand:"Porsche", porsche:true, name:"Porsche Carrera GT", detail:"Салон из алькантары", imgs:[],
+   desc:"Среднемоторный суперкар с V10 и съёмной крышей. Салон полностью отделан алькантарой.",
+   pop:"Аналоговый суперкар с механикой и атмосферным V10.",
+   year:"2004", power:"612 л.с.", dream:"$1 800 000", price:"коллекция", shop:"Аукцион / дилер",
+   note:"🟤 Alcantara interior"},
+  {id:7, brand:"Lexus", name:"Lexus LX 470", detail:"Внедорожник", imgs:[],
+   desc:"Надёжный рамный внедорожник Lexus — комфорт премиум-класса плюс серьёзная проходимость.",
+   pop:"Легенда надёжности и off-road возможностей.",
+   year:"2005", power:"235 л.с.", dream:"$35 000", price:"$15 000–35 000", shop:"Авторынок / Lexus"},
+  {id:8, brand:"Audi", name:"Audi RS4 B9", detail:"Универсал (Avant)", imgs:[],
+   desc:"Быстрый универсал Audi RS4 Avant — практичный кузов и битурбо V6 с quattro.",
+   pop:"Семейный универсал с динамикой суперкара.",
+   year:"2020", power:"450 л.с.", dream:"$80 000", price:"$60 000–80 000", shop:"Audi Sport"},
+  {id:9, brand:"Mercedes", name:"Mercedes S65 Coupe", detail:"Белый · диски Vesser VSR9", imgs:[],
+   desc:"Большое купе S65 в белом цвете с опущенными стёклами и дисками Vesser VSR9.",
+   pop:"Флагманское купе AMG с V12 и роскошным салоном.",
+   year:"2016", power:"630 л.с.", dream:"$160 000", price:"$90 000+", shop:"Mercedes-AMG",
+   note:"⚪ Vesser VSR9 · опущенные стёкла"},
+  {id:10, brand:"Mercedes", name:"Mercedes CL 550", detail:"Классическое купе", imgs:[],
+   desc:"Элегантное двухдверное купе бизнес-класса. Сдержанный классический дизайн.",
+   pop:"Бесшумный круизёр для дальних поездок.",
+   year:"2010", power:"435 л.с.", dream:"$45 000", price:"$25 000–45 000", shop:"Mercedes-Benz"},
+  {id:11, brand:"Mercedes", name:"Mercedes GT 63 Coupe", detail:"Чёрный матовый · коричневый салон", imgs:[],
+   desc:"Четырёхдверное купе AMG GT 63 в чёрном матовом исполнении кузова с контрастным коричневым салоном.",
+   pop:"Сочетание комфорта седана и характера спорткара.",
+   year:"2025", power:"639 л.с.", dream:"$180 000", price:"$180 000", shop:"Mercedes-AMG",
+   note:"🟫 Чёрный матовый кузов + коричневый салон"},
+  {id:12, brand:"BMW", name:"BMW M2", detail:"Коралловый · 2024–2025 · механика", imgs:[],
+   desc:"Компактное заднеприводное купе M2 в коралловом цвете с механической коробкой передач.",
+   pop:"Последний из «настоящих» драйверских BMW с механикой.",
+   year:"2024", power:"460 л.с.", dream:"$72 000", price:"$72 000", shop:"BMW M"},
+  {id:13, brand:"Aston Martin", name:"Aston Martin Zagato Shooting Brake", detail:"Уникальный универсал от Zagato", imgs:[],
+   desc:"Эксклюзивный shooting brake от Zagato — редкий кузов ручной сборки.",
+   pop:"Коллекционный раритет в считанных экземплярах.",
+   year:"2019", power:"600 л.с.", dream:"$1 000 000", price:"коллекция", shop:"Aston Martin / Zagato"},
+  {id:14, brand:"McLaren", name:"McLaren Speedtail", detail:"Гиперкар-триместный", imgs:[],
+   desc:"Гибридный гиперкар с центральной посадкой водителя и тремя местами. Топовая скорость 403 км/ч.",
+   pop:"Духовный наследник легендарного McLaren F1.",
+   year:"2020", power:"1055 л.с.", dream:"$2 250 000", price:"распродан", shop:"McLaren Special Ops"},
+  {id:15, brand:"Mitsubishi", name:"Mitsubishi L400", detail:"Для хайкинга · «мини-дом»", imgs:[],
+   desc:"Минивэн-кемпер L400, переоборудованный под «мини-дом» для хайкинга и путешествий.",
+   pop:"Идеальная база для van-life и аутдор-приключений.",
+   year:"1998", power:"140 л.с.", dream:"$25 000", price:"$8 000–25 000", shop:"JDM импорт",
+   note:"⛺ Кемпер-конверсия для походов"},
+  {id:16, brand:"ВАЗ", name:"ВАЗ 2101", detail:"Clean style · белые шины + колпаки", imgs:[],
+   desc:"Классическая «копейка» в чистом стиле: прозрачные задние стопари, колёса с колпаками и белыми шинами как на классике.",
+   pop:"Символ советского автопрома и неувядающей классики.",
+   year:"1975", power:"64 л.с.", dream:"❓", price:"❓ непонятные у неё цены 🤷", shop:"Ретро-площадки / гараж дедушки",
+   note:"🤍 Белые шины + колпаки · прозрачные стопари · clean style"},
+  {id:17, brand:"Alfa Romeo", name:"Alfa Romeo 33 Stradale (old)", detail:"Красная", imgs:[],
+   desc:"Классическая Alfa Romeo 33 Stradale — среднемоторный шедевр 60-х в красном цвете.",
+   pop:"Одна из красивейших машин в истории.",
+   year:"1967", power:"230 л.с.", dream:"$10 000 000", price:"музей", shop:"Аукцион"},
+  {id:18, brand:"Ferrari", name:"Ferrari GTC4Lusso", detail:"Чёрная", imgs:[],
+   desc:"Полноприводный шутинг-брейк Ferrari с V12 в чёрном цвете — практичность плюс мощь.",
+   pop:"Семейная Ferrari на каждый день.",
+   year:"2017", power:"690 л.с.", dream:"$300 000", price:"$200 000+", shop:"Ferrari"},
+  {id:19, brand:"Porsche", porsche:true, name:"Porsche Panamera Shooting Brake", detail:"Чёрная", imgs:[],
+   desc:"Универсал-шутинг-брейк на базе Panamera в чёрном цвете. Простор и динамика.",
+   pop:"Грузовая практичность в кузове спорткара.",
+   year:"2023", power:"560 л.с.", dream:"$160 000", price:"$160 000", shop:"Porsche"},
+  {id:20, brand:"Ferrari", name:"Ferrari 365 GTB/4 Shooting Brake", detail:"Классический универсал Ferrari", imgs:[],
+   desc:"Редкий shooting brake на базе классической Ferrari 365 GTB/4 «Daytona».",
+   pop:"Уникальный кастом-кузов на легендарной базе.",
+   year:"1972", power:"352 л.с.", dream:"$3 000 000", price:"коллекция", shop:"Аукцион"}
+];
+
+const views = ["спереди / 3-4","сбоку","сзади / интерьер"];
+
+/* ===================== РЕНДЕР ГЛАВНОЙ ===================== */
+const grid = document.getElementById('grid');
+cars.forEach(c=>{
+  const cell=document.createElement('div');
+  cell.className='cell'+(c.porsche?' porsche':'');
+  cell.innerHTML=`
+    <div class="door"></div>
+    <span class="num">${c.id}</span>
+    <span class="brand-tag">${c.brand}</span>
+    <span class="name">${c.name}</span>
+    <span class="detail">${c.detail}</span>`;
+  cell.addEventListener('click',()=>openGarage(c.id));
+  grid.appendChild(cell);
+});
+
+/* Появление ячеек при скролле */
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el=e.target;
+      const idx=[...grid.children].indexOf(el)%4;
+      el.style.transitionDelay=(idx*0.06)+'s';
+      el.classList.add('in-view');
+      io.unobserve(el);
+    }
+  });
+},{threshold:0.15});
+document.querySelectorAll('.cell').forEach(c=>io.observe(c));
+
+/* ===================== ЛИЧНЫЙ ГАРАЖ ===================== */
+let current=0, gallery=[], currentCarIndex=0, animating=false;
+function ph(text,bg){return `https://placehold.co/800x500/${bg}/white?text=${encodeURIComponent(text)}`;}
+
+function openGarage(id){
+  currentCarIndex = cars.findIndex(x=>x.id===id);
+  renderCar();
+  document.getElementById('home').style.display='none';
+  document.getElementById('garage').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderCar(){
+  const c = cars[currentCarIndex];
+  current=0;
+  document.getElementById('gTitle').textContent = c.name;
+
+  gallery = (c.imgs && c.imgs.length===3) ? c.imgs.slice() : [
+    ph(c.name+" — спереди","333"),
+    ph(c.name+" — сбоку","2a2a3a"),
+    ph(c.name+" — сзади","222")
+  ];
+
+  const stage=document.getElementById('stage'), dots=document.getElementById('dots');
+  stage.innerHTML='';dots.innerHTML='';
+  gallery.forEach((src,idx)=>{
+    const img=document.createElement('img');
+    img.src=src;img.alt=c.name;
+    if(idx===0)img.classList.add('show');
+    stage.appendChild(img);
+    const d=document.createElement('span');
+    if(idx===0)d.classList.add('active');
+    d.addEventListener('click',()=>showImg(idx));
+    dots.appendChild(d);
+  });
+  updateLabel();
+
+  document.getElementById('cards').innerHTML=`
+    <div class="info-card">
+      <h3>📖 Описание</h3>
+      <p>${c.desc}</p>
+      <div class="highlight"><b>Чем популярна:</b> ${c.pop}</div>
+      ${c.note?`<div class="highlight">${c.note}</div>`:''}
+    </div>
+    <div class="info-card">
+      <h3>⚙ Характеристики</h3>
+      <div class="spec-row"><span>Год</span><span>${c.year}</span></div>
+      <div class="spec-row"><span>Мощность</span><span>${c.power}</span></div>
+      <div class="spec-row"><span>Бренд</span><span>${c.brand}</span></div>
+      <div class="spec-row"><span>Цена мечты</span><span>${c.dream}</span></div>
+    </div>
+    <div class="info-card">
+      <h3>💰 Цена и покупка</h3>
+      <div class="spec-row"><span>Ориентир. цена</span><span>${c.price}</span></div>
+      <div class="spec-row"><span>Где искать</span><span>${c.shop}</span></div>
+      <a class="buy-btn" href="#" onclick="return false">Хочу такую →</a>
+    </div>`;
+}
+
+/* Переход между гаражами с анимацией перелистывания (с учётом направления) */
+function switchCar(dir){
+  if(animating) return;
+  animating=true;
+  const content=document.getElementById('carContent');
+  const outClass = dir>0 ? 'slide-out-left' : 'slide-out-right';
+  const inClass  = dir>0 ? 'slide-in-right' : 'slide-in-left';
+
+  content.classList.add(outClass);
+  content.addEventListener('animationend',function handler(){
+    content.removeEventListener('animationend',handler);
+    content.classList.remove(outClass);
+
+    currentCarIndex = (currentCarIndex + dir + cars.length) % cars.length;
+    renderCar();
+    window.scrollTo(0,0);
+
+    content.classList.add(inClass);
+    content.addEventListener('animationend',function h2(){
+      content.removeEventListener('animationend',h2);
+      content.classList.remove(inClass);
+      animating=false;
+    });
+  });
+}
+function nextCar(){switchCar(1);}   // вправо
+function prevCar(){switchCar(-1);}  // влево
+
+function goHome(){
+  document.getElementById('garage').classList.remove('active');
+  document.getElementById('home').style.display='block';
+  window.scrollTo(0,0);
+}
+
+/* Переключение ракурсов фото */
+function showImg(idx){
+  const imgs=document.querySelectorAll('#stage img'),dots=document.querySelectorAll('#dots span');
+  imgs[current].classList.remove('show');dots[current].classList.remove('active');
+  current=(idx+gallery.length)%gallery.length;
+  imgs[current].classList.add('show');dots[current].classList.add('active');
+  updateLabel();
+}
+function nextImg(){showImg(current+1);}
+function prevImg(){showImg(current-1);}
+function updateLabel(){document.getElementById('viewLabel').textContent=`РАКУРС ${current+1} / 3 · ${views[current].toUpperCase()}`;}
+
+/* ===================== ПАРАЛЛАКС ===================== */
+window.addEventListener('scroll',()=>{
+  const p=document.getElementById('parallax');
+  if(p)p.style.transform=`translateY(${window.scrollY*0.3}px)`;
+});
+
+/* Клавиатура: стрелки листают машины, Esc — назад */
+document.addEventListener('keydown',e=>{
+  const inGarage=document.getElementById('garage').classList.contains('active');
+  if(e.key==='Escape'&&inGarage)goHome();
+  if(inGarage){
+    if(e.key==='ArrowRight')nextCar();
+    if(e.key==='ArrowLeft')prevCar();
+  }
+});
+</script>
+</body>
+</html>
+>>>>>>> 88d5a3e0999cd19d98ab5e29f5a11b4dadb9f521
